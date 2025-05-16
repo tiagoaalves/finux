@@ -9,13 +9,13 @@ interface TransactionItemProps {
 const getLabelColor = (label: string) => {
   switch (label) {
     case "Need":
-      return "bg-[#1e3a8a]/20 text-[#93c5fd]";
+      return "bg-[#01BAEF] text-white";
     case "Want":
-      return "bg-[#581c87]/20 text-[#d8b4fe]";
+      return "bg-[#DC8BE0] text-white";
     case "Saving":
-      return "bg-[#166534]/20 text-[#86efac]";
+      return "bg-[#64E2B7] text-white";
     default:
-      return "bg-[#27272a]/50 text-[#a1a1aa]";
+      return "bg-[#333333] text-white";
   }
 };
 
@@ -82,21 +82,22 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
             </span>
           </div>
 
-          <div className="flex items-center mt-1 text-xs">
-            <span className="text-gray-400 truncate">
-              {transaction.category}
-              {transaction.subcategory && ` › ${transaction.subcategory}`}
-            </span>
-
-            <div className="flex items-center ml-auto">
-              <span className="text-gray-400 mr-2">{formattedDate}</span>
-              <span
-                className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getLabelColor(transaction.label)}`}
-              >
-                <Tag size={10} className="mr-1" />
-                {transaction.label}
+          <div className="flex justify-between items-start mt-1 text-xs">
+            <div>
+              <span className="text-gray-400 block">
+                {transaction.category}
+                {transaction.subcategory && ` › ${transaction.subcategory}`}
               </span>
+              <div className="mt-1 flex-shrink-0 w-fit">
+                <span
+                  className={`rounded-full py-0.5 px-2 ${getLabelColor(transaction.label)} flex items-center w-fit`}
+                >
+                  <Tag size={10} className="mr-1" />
+                  <span>{transaction.label}</span>
+                </span>
+              </div>
             </div>
+            <span className="text-gray-400 mt-1">{formattedDate}</span>
           </div>
         </div>
       </div>
