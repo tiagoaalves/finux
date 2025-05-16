@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Category } from "@/types/category";
 import { Label } from "@/types/label";
-import { Search, Filter, X, ChevronDown } from "lucide-react";
+import { Search, Filter, ChevronDown } from "lucide-react";
 
 interface TransactionFiltersProps {
   categories: Category[];
@@ -59,14 +59,14 @@ export default function TransactionFilters({
         </div>
         <input
           type="text"
-          className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-12 p-3 transition-all"
+          className="bg-[#222222] border border-[#333333] text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-12 p-3 transition-all"
           placeholder="Search transactions..."
           value={search}
           onChange={handleSearchChange}
         />
         <button
           className={`absolute inset-y-0 right-3 flex items-center justify-center w-8 h-8 my-auto rounded-lg ${
-            filtersApplied ? "bg-indigo-600" : "hover:bg-gray-700"
+            filtersApplied ? "bg-indigo-600" : "hover:bg-[#333333]"
           } transition-colors`}
           onClick={() => setShowFilters(!showFilters)}
           aria-label="Toggle filters"
@@ -76,13 +76,13 @@ export default function TransactionFilters({
             className={filtersApplied ? "text-white" : "text-gray-500"}
           />
           {filtersApplied && (
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-gray-800"></span>
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-[#222222]"></span>
           )}
         </button>
       </div>
 
       {showFilters && (
-        <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 space-y-4 animate-fadeIn">
+        <div className="rounded-xl bg-[#222222] border border-[#333333] p-4 space-y-4 animate-fadeIn">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-sm font-medium text-white">Filters</h3>
             {filtersApplied && (
@@ -102,7 +102,7 @@ export default function TransactionFilters({
               </label>
               <div className="relative">
                 <select
-                  className="bg-gray-700 border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  className="bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
                   value={category}
                   onChange={handleCategoryChange}
                 >
@@ -126,7 +126,7 @@ export default function TransactionFilters({
               </label>
               <div className="relative">
                 <select
-                  className="bg-gray-700 border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  className="bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
                   value={label}
                   onChange={handleLabelChange}
                 >

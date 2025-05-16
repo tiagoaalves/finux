@@ -28,9 +28,9 @@ export default function TransactionList({
 
   if (transactions.length === 0) {
     return (
-      <div className="p-8 text-center text-gray-400 rounded-xl bg-gray-800 border border-gray-700">
+      <div className="p-8 text-center text-gray-400 rounded-xl bg-[#222222] border border-[#333333]">
         <div className="flex flex-col items-center justify-center py-6">
-          <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center mb-4">
+          <div className="w-16 h-16 rounded-full bg-[#333333] flex items-center justify-center mb-4">
             <Calendar size={24} className="text-indigo-500" />
           </div>
           <p className="text-lg font-medium mb-1">No transactions found</p>
@@ -43,10 +43,10 @@ export default function TransactionList({
   }
 
   return (
-    <div className="overflow-hidden divide-y divide-gray-700 rounded-xl bg-gray-800 border border-gray-700">
+    <div className="overflow-hidden divide-y divide-[#333333] rounded-xl bg-[#222222] border border-[#333333]">
       {sortedDates.map((dateKey) => (
         <div key={dateKey} className="animate-fadeIn">
-          <div className="sticky top-0 px-4 py-3 backdrop-blur-md bg-gray-800/90 border-b border-gray-700 z-10">
+          <div className="sticky top-0 px-4 py-3 backdrop-blur-md bg-[#222222]/90 border-b border-[#333333] z-10">
             <div className="flex items-center">
               <Calendar size={14} className="text-indigo-500 mr-2" />
               <h3 className="text-sm font-medium text-white">

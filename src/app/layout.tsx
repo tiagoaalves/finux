@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Finux - Personal Finance Dashboard",
   description: "Track your personal finances with a beautiful dashboard",
-  themeColor: "#0f0f13",
+  themeColor: "#1c1c1c",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-950 text-gray-100`}>
+      <body className={`${inter.className} bg-[#1c1c1c] text-gray-100`}>
         <div className="min-h-screen flex flex-col">
           <main className="flex-1 pb-20">{children}</main>
           <Navigation />

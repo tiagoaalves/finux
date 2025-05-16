@@ -61,9 +61,9 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
   }).format(Math.abs(amount));
 
   return (
-    <div className="p-4 hover:bg-gray-700 transition-colors duration-200 border-b border-gray-700 last:border-0">
+    <div className="p-4 hover:bg-[#2a2a2a] transition-colors duration-200 border-b border-[#333333] last:border-0">
       <div className="flex items-center">
-        <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-gray-700 text-xl">
+        <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-[#333333] text-xl">
           {getCategoryIcon(transaction.category)}
         </div>
 

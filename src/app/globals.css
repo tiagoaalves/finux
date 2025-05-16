@@ -4,12 +4,12 @@
   --primary: #6366f1;
   --primary-light: #818cf8;
   --primary-dark: #4f46e5;
-  --background: #0f0f13;
+  --background: #1c1c1c;
   --foreground: #f2f2f2;
-  --card: #1f1f27;
+  --card: #222222;
   --card-foreground: #f2f2f2;
-  --border: #2d2d3a;
-  --input: #2d2d3a;
+  --border: #333333;
+  --input: #333333;
   --ring: #6366f1;
   --radius: 0.75rem;
   --success: #10b981;
@@ -68,9 +68,9 @@ body {
 .skeleton-shine {
   background: linear-gradient(
     to right,
-    rgba(42, 42, 53, 0) 0%,
-    rgba(55, 55, 70, 0.3) 50%,
-    rgba(42, 42, 53, 0) 100%
+    rgba(34, 34, 34, 0) 0%,
+    rgba(51, 51, 51, 0.3) 50%,
+    rgba(34, 34, 34, 0) 100%
   );
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
@@ -82,16 +82,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f1f27;
+  background: #222222;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2d2d3a;
+  background: #333333;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3d3d4a;
+  background: #444444;
 }
 
 /* Focus styles */
