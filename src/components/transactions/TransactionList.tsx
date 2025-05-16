@@ -1,6 +1,7 @@
 import { Transaction } from "@/types/transaction";
 import TransactionItem from "./TransactionItem";
 import { format } from "date-fns";
+import { Calendar } from "lucide-react";
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -11,15 +12,12 @@ export default function TransactionList({
 }: TransactionListProps) {
   // Group transactions by date
   const groupedTransactions: Record<string, Transaction[]> = {};
-
   transactions.forEach((transaction) => {
     const date = new Date(transaction.date);
     const dateKey = format(date, "yyyy-MM-dd");
-
     if (!groupedTransactions[dateKey]) {
       groupedTransactions[dateKey] = [];
     }
-
     groupedTransactions[dateKey].push(transaction);
   });
 
@@ -30,27 +28,40 @@ export default function TransactionList({
 
   if (transactions.length === 0) {
     return (
-      <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-        No transactions found
+      <div className="p-8 text-center text-gray-400 rounded-xl bg-gray-800 border border-gray-700">
+        <div className="flex flex-col items-center justify-center py-6">
+          <div className="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center mb-4">
+            <Calendar size={24} className="text-indigo-500" />
+          </div>
+          <p className="text-lg font-medium mb-1">No transactions found</p>
+          <p className="text-sm">
+            Try adjusting your filters or adding new transactions
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden dark:bg-gray-800">
+    <div className="overflow-hidden divide-y divide-gray-700 rounded-xl bg-gray-800 border border-gray-700">
       {sortedDates.map((dateKey) => (
-        <div key={dateKey}>
-          <div className="sticky top-0 px-4 py-2 bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700">
-            <h3 className="font-medium text-gray-700 dark:text-gray-300">
-              {format(new Date(dateKey), "EEEE, MMMM d, yyyy")}
-            </h3>
+        <div key={dateKey} className="animate-fadeIn">
+          <div className="sticky top-0 px-4 py-3 backdrop-blur-md bg-gray-800/90 border-b border-gray-700 z-10">
+            <div className="flex items-center">
+              <Calendar size={14} className="text-indigo-500 mr-2" />
+              <h3 className="text-sm font-medium text-white">
+                {format(new Date(dateKey), "EEEE, MMMM d, yyyy")}
+              </h3>
+            </div>
           </div>
-          {groupedTransactions[dateKey].map((transaction, index) => (
-            <TransactionItem
-              key={`${transaction.importedAt}-${index}`}
-              transaction={transaction}
-            />
-          ))}
+          <div>
+            {groupedTransactions[dateKey].map((transaction, index) => (
+              <TransactionItem
+                key={`${transaction.importedAt}-${index}`}
+                transaction={transaction}
+              />
+            ))}
+          </div>
         </div>
       ))}
     </div>

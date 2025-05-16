@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Category } from "@/types/category";
 import { Label } from "@/types/label";
-import { Search, Filter, X } from "lucide-react";
+import { Search, Filter, X, ChevronDown } from "lucide-react";
 
 interface TransactionFiltersProps {
   categories: Category[];
@@ -22,6 +22,12 @@ export default function TransactionFilters({
   const [category, setCategory] = useState("");
   const [label, setLabel] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [filtersApplied, setFiltersApplied] = useState(false);
+
+  useEffect(() => {
+    // Check if any filters are applied
+    setFiltersApplied(!!category || !!label);
+  }, [category, label]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -46,71 +52,97 @@ export default function TransactionFilters({
   };
 
   return (
-    <div className="mb-4 space-y-4">
+    <div className="mb-6 space-y-4">
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <Search size={18} className="text-gray-400" />
+        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+          <Search size={18} className="text-gray-500" />
         </div>
         <input
           type="text"
-          className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
+          className="bg-gray-800 border border-gray-700 text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-12 p-3 transition-all"
           placeholder="Search transactions..."
           value={search}
           onChange={handleSearchChange}
         />
         <button
-          className="absolute inset-y-0 right-0 flex items-center pr-3"
+          className={`absolute inset-y-0 right-3 flex items-center justify-center w-8 h-8 my-auto rounded-lg ${
+            filtersApplied ? "bg-indigo-600" : "hover:bg-gray-700"
+          } transition-colors`}
           onClick={() => setShowFilters(!showFilters)}
+          aria-label="Toggle filters"
         >
-          <Filter size={18} className="text-gray-400" />
+          <Filter
+            size={16}
+            className={filtersApplied ? "text-white" : "text-gray-500"}
+          />
+          {filtersApplied && (
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-gray-800"></span>
+          )}
         </button>
       </div>
 
       {showFilters && (
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Category
-            </label>
-            <select
-              className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              value={category}
-              onChange={handleCategoryChange}
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat) => (
-                <option key={cat.name} value={cat.name}>
-                  {cat.name}
-                </option>
-              ))}
-            </select>
+        <div className="rounded-xl bg-gray-800 border border-gray-700 p-4 space-y-4 animate-fadeIn">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-sm font-medium text-white">Filters</h3>
+            {filtersApplied && (
+              <button
+                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                onClick={handleClearFilters}
+              >
+                Clear all
+              </button>
+            )}
           </div>
 
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Label
-            </label>
-            <select
-              className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              value={label}
-              onChange={handleLabelChange}
-            >
-              <option value="">All Labels</option>
-              {labels.map((lab) => (
-                <option key={lab.name} value={lab.name}>
-                  {lab.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">
+                Category
+              </label>
+              <div className="relative">
+                <select
+                  className="bg-gray-700 border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  value={category}
+                  onChange={handleCategoryChange}
+                >
+                  <option value="">All Categories</option>
+                  {categories.map((cat) => (
+                    <option key={cat.name} value={cat.name}>
+                      {cat.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  size={16}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"
+                />
+              </div>
+            </div>
 
-          <div className="flex items-end">
-            <button
-              className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 p-2.5 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              onClick={handleClearFilters}
-            >
-              <X size={18} />
-            </button>
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">
+                Label
+              </label>
+              <div className="relative">
+                <select
+                  className="bg-gray-700 border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  value={label}
+                  onChange={handleLabelChange}
+                >
+                  <option value="">All Labels</option>
+                  {labels.map((lab) => (
+                    <option key={lab.name} value={lab.name}>
+                      {lab.name}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  size={16}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
