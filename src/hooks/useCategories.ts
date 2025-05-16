@@ -1,11 +1,11 @@
 import useSWR from "swr";
-import { Transaction } from "@/types/transaction";
+import { Category } from "@/types/category";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-export function useTransactions() {
-  const { data, error, isLoading, mutate } = useSWR<Transaction[]>(
-    "/api/transactions",
+export function useCategories() {
+  const { data, error, isLoading } = useSWR<Category[]>(
+    "/api/categories",
     fetcher,
     {
       revalidateOnFocus: false,
@@ -14,9 +14,8 @@ export function useTransactions() {
   );
 
   return {
-    transactions: data || [],
+    categories: data || [],
     isLoading,
     isError: error,
-    mutate,
   };
 }
