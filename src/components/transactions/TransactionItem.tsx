@@ -1,6 +1,7 @@
 import { Transaction } from "@/types/transaction";
 import { format } from "date-fns";
 import { Tag } from "lucide-react";
+import { useCategoryIcons } from "@/hooks/useCategories";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -19,35 +20,9 @@ const getLabelColor = (label: string) => {
   }
 };
 
-const getCategoryIcon = (category: string) => {
-  // You could add more category icons here
-  switch (category.toLowerCase()) {
-    case "groceries":
-      return "🛒";
-    case "dining":
-      return "🍽️";
-    case "transport":
-      return "🚗";
-    case "entertainment":
-      return "🎬";
-    case "utilities":
-      return "💡";
-    case "housing":
-      return "🏠";
-    case "health":
-      return "🏥";
-    case "shopping":
-      return "🛍️";
-    case "travel":
-      return "✈️";
-    case "income":
-      return "💰";
-    default:
-      return "💳";
-  }
-};
-
 export default function TransactionItem({ transaction }: TransactionItemProps) {
+  const { getCategoryIcon } = useCategoryIcons();
+
   // Format date from MM/DD/YYYY to a more readable format
   const date = new Date(transaction.date);
   const formattedDate = format(date, "d MMM");
@@ -88,14 +63,16 @@ export default function TransactionItem({ transaction }: TransactionItemProps) {
                 {transaction.category}
                 {transaction.subcategory && ` › ${transaction.subcategory}`}
               </span>
-              <div className="mt-1 flex-shrink-0 w-fit">
-                <span
-                  className={`rounded-full py-0.5 px-2 ${getLabelColor(transaction.label)} flex items-center w-fit`}
-                >
-                  <Tag size={10} className="mr-1" />
-                  <span>{transaction.label}</span>
-                </span>
-              </div>
+              {transaction.label && (
+                <div className="mt-1 flex-shrink-0 w-fit">
+                  <span
+                    className={`rounded-full py-0.5 px-2 ${getLabelColor(transaction.label)} flex items-center w-fit`}
+                  >
+                    <Tag size={10} className="mr-1" />
+                    <span>{transaction.label}</span>
+                  </span>
+                </div>
+              )}
             </div>
             <span className="text-gray-400 mt-1">{formattedDate}</span>
           </div>

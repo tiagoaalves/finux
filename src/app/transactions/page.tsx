@@ -1,15 +1,15 @@
 "use client";
 import { useState, useMemo } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
-import { useCategories } from "@/hooks/useCategories";
+import { useCategoryMap } from "@/hooks/useCategories";
 import { useLabels } from "@/hooks/useLabels";
 import TransactionList from "@/components/transactions/TransactionList";
 import TransactionFilters from "@/components/transactions/TransactionFilters";
-import { PlusCircle, ListFilter } from "lucide-react";
+import { ListFilter } from "lucide-react";
 
 export default function TransactionsPage() {
   const { transactions, isLoading: isLoadingTransactions } = useTransactions();
-  const { categories, isLoading: isLoadingCategories } = useCategories();
+  const { categoryMap, isLoading: isLoadingCategories } = useCategoryMap();
   const { labels, isLoading: isLoadingLabels } = useLabels();
 
   const [filters, setFilters] = useState({
@@ -17,6 +17,11 @@ export default function TransactionsPage() {
     category: "",
     label: "",
   });
+
+  // Convert categoryMap to array for filters
+  const categories = useMemo(() => {
+    return Array.from(categoryMap.values());
+  }, [categoryMap]);
 
   const filteredTransactions = useMemo(() => {
     if (!transactions.length) return [];
@@ -43,7 +48,7 @@ export default function TransactionsPage() {
   return (
     <div className="max-w-screen-md mx-auto px-4 py-8">
       <div className="flex flex-col mb-6">
-        {filtersApplied && (
+        {filtersApplied && !isLoading && (
           <div className="flex items-center text-sm text-gray-400 mb-1">
             <ListFilter size={14} className="mr-1" />
             <span>
@@ -58,9 +63,10 @@ export default function TransactionsPage() {
         categories={categories}
         labels={labels}
         onFilterChange={setFilters}
+        isLoading={isLoading}
       />
 
-      {isLoading ? (
+      {isLoadingTransactions ? (
         <div className="space-y-4">
           {Array.from({ length: 5 }).map((_, index) => (
             <div

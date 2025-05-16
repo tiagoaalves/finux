@@ -85,7 +85,7 @@ export const fetchTransactions = async (): Promise<Transaction[]> => {
 export const fetchCategories = async (): Promise<Category[]> => {
   try {
     const doc = await getDocument();
-    const sheet = doc.sheetsByTitle["Categories"]; // Adjust if your sheet name is different
+    const sheet = doc.sheetsByTitle["Categories"];
 
     if (!sheet) {
       throw new Error("Categories sheet not found");
@@ -100,6 +100,7 @@ export const fetchCategories = async (): Promise<Category[]> => {
     rows.forEach((row) => {
       const categoryName = row.get("Category");
       const subcategory = row.get("Subcategory");
+      const icon = row.get("Icon");
 
       if (!categoryName) return;
 
@@ -108,6 +109,7 @@ export const fetchCategories = async (): Promise<Category[]> => {
         categoryMap[categoryName] = {
           name: categoryName,
           subcategories: [],
+          icon: icon || undefined,
         };
       }
 

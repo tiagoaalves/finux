@@ -2,6 +2,7 @@ import { Transaction } from "@/types/transaction";
 import TransactionItem from "./TransactionItem";
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
+import { useCategoryMap } from "@/hooks/useCategories";
 
 interface TransactionListProps {
   transactions: Transaction[];
@@ -10,6 +11,8 @@ interface TransactionListProps {
 export default function TransactionList({
   transactions,
 }: TransactionListProps) {
+  const { isLoading: isCategoriesLoading } = useCategoryMap();
+
   // Group transactions by date
   const groupedTransactions: Record<string, Transaction[]> = {};
   transactions.forEach((transaction) => {
@@ -25,6 +28,17 @@ export default function TransactionList({
   const sortedDates = Object.keys(groupedTransactions).sort(
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   );
+
+  if (isCategoriesLoading) {
+    return (
+      <div className="p-8 text-center text-gray-400 rounded-xl bg-[#222222] border border-[#333333]">
+        <div className="flex flex-col items-center justify-center py-6">
+          <div className="animate-pulse w-16 h-16 rounded-full bg-[#333333] flex items-center justify-center mb-4"></div>
+          <p className="text-lg font-medium mb-1">Loading transactions...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (transactions.length === 0) {
     return (

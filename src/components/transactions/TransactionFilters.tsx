@@ -11,12 +11,14 @@ interface TransactionFiltersProps {
     category: string;
     label: string;
   }) => void;
+  isLoading?: boolean;
 }
 
 export default function TransactionFilters({
   categories,
   labels,
   onFilterChange,
+  isLoading = false,
 }: TransactionFiltersProps) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
@@ -59,17 +61,21 @@ export default function TransactionFilters({
         </div>
         <input
           type="text"
-          className="bg-[#222222] border border-[#333333] text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-12 p-3 transition-all"
+          className={`bg-[#222222] border border-[#333333] text-white text-sm rounded-xl focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 pr-12 p-3 transition-all ${
+            isLoading ? "opacity-70 cursor-not-allowed" : ""
+          }`}
           placeholder="Search transactions..."
           value={search}
           onChange={handleSearchChange}
+          disabled={isLoading}
         />
         <button
           className={`absolute inset-y-0 right-3 flex items-center justify-center w-8 h-8 my-auto rounded-lg ${
             filtersApplied ? "bg-indigo-600" : "hover:bg-[#333333]"
-          } transition-colors`}
-          onClick={() => setShowFilters(!showFilters)}
+          } transition-colors ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+          onClick={() => !isLoading && setShowFilters(!showFilters)}
           aria-label="Toggle filters"
+          disabled={isLoading}
         >
           <Filter
             size={16}
@@ -87,8 +93,11 @@ export default function TransactionFilters({
             <h3 className="text-sm font-medium text-white">Filters</h3>
             {filtersApplied && (
               <button
-                className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                className={`text-xs text-indigo-400 hover:text-indigo-300 transition-colors ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 onClick={handleClearFilters}
+                disabled={isLoading}
               >
                 Clear all
               </button>
@@ -102,9 +111,12 @@ export default function TransactionFilters({
               </label>
               <div className="relative">
                 <select
-                  className="bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  className={`bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none ${
+                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                   value={category}
                   onChange={handleCategoryChange}
+                  disabled={isLoading}
                 >
                   <option value="">All Categories</option>
                   {categories.map((cat) => (
@@ -126,9 +138,12 @@ export default function TransactionFilters({
               </label>
               <div className="relative">
                 <select
-                  className="bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none"
+                  className={`bg-[#333333] border-0 text-white text-sm rounded-lg focus:ring-indigo-500 block w-full p-3 appearance-none ${
+                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                   value={label}
                   onChange={handleLabelChange}
+                  disabled={isLoading}
                 >
                   <option value="">All Labels</option>
                   {labels.map((lab) => (
